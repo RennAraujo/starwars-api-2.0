@@ -28,7 +28,7 @@ public class UserResource {
         return ResponseEntity.ok().body(obj);
     }
 
-  //EndPoint da criação do Usuario
+    //EndPoint da criação do Usuario
     @PostMapping
     public ResponseEntity<User> insert(@RequestBody User obj) {
         obj = service.insert(obj);
