@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import starwarsapi20.entities.User;
 import starwarsapi20.repositories.UserRepository;
+import starwarsapi20.services.exceptions.ResourceNotFoundException;
 
 import java.util.List;
 import java.util.Optional;
@@ -20,11 +21,11 @@ public class UserService {
 
     public User findById(Long id) {
         Optional<User> obj = repository.findById(id);
-        return obj.get();
+        return obj.orElseThrow(() -> new ResourceNotFoundException(id));
     }
 
 
-   //adiciona um novo usuario
+    //adiciona um novo usuario
     public User insert(User obj) {
         return repository.save(obj);
     }
@@ -35,7 +36,7 @@ public class UserService {
 
     }
 
-   //atualiza um novo usuario
+    //atualiza um novo usuario
     public User update(Long id, User obj) {
         User entity = repository.getReferenceById(id);
         updateData(entity, obj);
