@@ -1,9 +1,12 @@
 package starwarsapi20.services;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 import starwarsapi20.entities.User;
 import starwarsapi20.repositories.UserRepository;
+import starwarsapi20.services.exceptions.DataBaseException;
 import starwarsapi20.services.exceptions.ResourceNotFoundException;
 
 import java.util.List;
@@ -32,8 +35,13 @@ public class UserService {
 
     //deleta um novo usuario
     public void delete(long id) {
-        repository.deleteById(id);
-
+        try {
+            repository.deleteById(id);
+        } catch (EmptyResultDataAccessException e) {
+            throw new ResourceNotFoundException(id);
+        } catch (DataIntegrityViolationException e) {
+            throw new DataBaseException(e.getMessage());
+        }
     }
 
     //atualiza um novo usuario
