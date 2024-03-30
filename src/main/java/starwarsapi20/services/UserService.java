@@ -23,6 +23,11 @@ public class UserService {
         return repository.findAll();
     }
 
+    /**
+     * Trás todos os resultados
+     * @param id identificador de usuarios.
+     * @return retorna o usuario com Id correspondente.
+     */
     public User findById(Long id) {
         Optional<User> obj = repository.findById(id);
         return obj.orElseThrow(() -> new ResourceNotFoundException(id));
