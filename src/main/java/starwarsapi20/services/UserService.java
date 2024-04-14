@@ -20,26 +20,39 @@ public class UserService {
     private UserRepository repository;
 
     public List<User> findAll() {
+        // Retorna todos os usuários
         return repository.findAll();
     }
 
     /**
-     * Trás todos os resultados
-     * @param id identificador de usuarios.
-     * @return retorna o usuario com Id correspondente.
+     * Busca um usuário pelo ID.
+     *
+     * @param id Identificador do usuário.
+     * @return O usuário com o ID correspondente.
+     * @throws ResourceNotFoundException Se o usuário não for encontrado.
      */
     public User findById(Long id) {
         Optional<User> obj = repository.findById(id);
         return obj.orElseThrow(() -> new ResourceNotFoundException(id));
     }
 
-
-    //adiciona um novo usuario
+    /**
+     * Insere um novo usuário.
+     *
+     * @param obj O usuário a ser inserido.
+     * @return O usuário inserido.
+     */
     public User insert(User obj) {
         return repository.save(obj);
     }
 
-    //deleta um novo usuario
+    /**
+     * Deleta um usuário pelo ID.
+     *
+     * @param id Identificador do usuário a ser deletado.
+     * @throws ResourceNotFoundException Se o usuário não for encontrado.
+     * @throws DataBaseException Se ocorrer um erro de integridade de dados.
+     */
     public void delete(long id) {
         try {
             repository.deleteById(id);
@@ -50,7 +63,14 @@ public class UserService {
         }
     }
 
-    //atualiza um novo usuario
+    /**
+     * Atualiza um usuário existente.
+     *
+     * @param id  Identificador do usuário a ser atualizado.
+     * @param obj Novos dados do usuário.
+     * @return O usuário atualizado.
+     * @throws ResourceNotFoundException Se o usuário não for encontrado.
+     */
     public User update(Long id, User obj) {
         try {
             User entity = repository.getReferenceById(id);
@@ -61,11 +81,16 @@ public class UserService {
         }
     }
 
+    /**
+     * Atualiza os dados do usuário com base nos novos dados fornecidos.
+     *
+     * @param entity Usuário existente.
+     * @param obj    Novos dados do usuário.
+     */
     private void updateData(User entity, User obj) {
         entity.setName(obj.getName());
         entity.setGenero(obj.getGenero());
         entity.setIdade(obj.getIdade());
         entity.setTraidor(obj.getTraidor());
     }
-
-}
+    }
