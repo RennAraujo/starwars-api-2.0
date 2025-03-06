@@ -51,7 +51,7 @@ public class UserService {
      *
      * @param id Identificador do usuário a ser deletado.
      * @throws ResourceNotFoundException Se o usuário não for encontrado.
-     * @throws DataBaseException Se ocorrer um erro de integridade de dados.
+     * @throws DataBaseException         Se ocorrer um erro de integridade de dados.
      */
     public void delete(long id) {
         try {
@@ -93,4 +93,4 @@ public class UserService {
         entity.setIdade(obj.getIdade());
         entity.setTraidor(obj.getTraidor());
     }
-    }
+}

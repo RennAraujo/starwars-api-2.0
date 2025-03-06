@@ -1,7 +1,7 @@
 package starwarsapi20.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
-import org.springframework.boot.autoconfigure.web.WebProperties;
 
 import java.io.Serializable;
 import java.util.Objects;
@@ -10,13 +10,19 @@ import java.util.Objects;
 @Table(name = "tb_user")
 public class User implements Serializable {
     private static final long serialVersionUID = 1L;
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
+
     private String name;
     private String idade;
     private String genero;
-    private String Traidor;
+    private String traidor;
+
+    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
+    @JsonIgnore
+    private Localizacao localizacao;
 
     public User() {
     }
@@ -26,7 +32,7 @@ public class User implements Serializable {
         this.name = name;
         this.idade = idade;
         this.genero = genero;
-        Traidor = traidor;
+        this.traidor = traidor;
     }
 
     public long getId() {
@@ -62,11 +68,19 @@ public class User implements Serializable {
     }
 
     public String getTraidor() {
-        return Traidor;
+        return traidor;
     }
 
     public void setTraidor(String traidor) {
-        Traidor = traidor;
+        this.traidor = traidor;
+    }
+
+    public Localizacao getLocalizacao() {
+        return localizacao;
+    }
+
+    public void setLocalizacao(Localizacao localizacao) {
+        this.localizacao = localizacao;
     }
 
     @Override

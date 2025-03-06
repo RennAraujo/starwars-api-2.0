@@ -13,22 +13,40 @@ import java.util.List;
 @RestController
 @RequestMapping(value = "/users")
 public class UserResource {
+
     @Autowired
     private UserService service;
 
+    /**
+     * Retorna todos os usuários.
+     *
+     * @return Lista de usuários.
+     */
     @GetMapping
     public ResponseEntity<List<User>> findAll() {
         List<User> list = service.findAll();
         return ResponseEntity.ok().body(list);
     }
 
+    /**
+     * Busca um usuário pelo ID.
+     *
+     * @param id Identificador do usuário.
+     * @return O usuário com o ID correspondente.
+     * @throws ResourceNotFoundException Se o usuário não for encontrado.
+     */
     @GetMapping(value = "/{id}")
     public ResponseEntity<User> findById(@PathVariable Long id) {
         User obj = service.findById(id);
         return ResponseEntity.ok().body(obj);
     }
 
-    //EndPoint da criação do Usuario
+    /**
+     * Insere um novo usuário.
+     *
+     * @param obj O usuário a ser inserido.
+     * @return O usuário inserido.
+     */
     @PostMapping
     public ResponseEntity<User> insert(@RequestBody User obj) {
         obj = service.insert(obj);
@@ -36,14 +54,28 @@ public class UserResource {
         return ResponseEntity.created(uri).body(obj);
     }
 
-    //EndPoint da Deleção do Usuario
+    /**
+     * Deleta um usuário pelo ID.
+     *
+     * @param id Identificador do usuário a ser deletado.
+     * @return Resposta vazia (sem conteúdo).
+     * @throws ResourceNotFoundException Se o usuário não for encontrado.
+     * @throws DataBaseException         Se ocorrer um erro de integridade de dados.
+     */
     @DeleteMapping(value = "/{id}")
     public ResponseEntity<Void> delete(@PathVariable Long id) {
         service.delete(id);
         return ResponseEntity.noContent().build();
     }
 
-    //EndPoint da atualizaçao do Usuario
+    /**
+     * Atualiza um usuário existente.
+     *
+     * @param id  Identificador do usuário a ser atualizado.
+     * @param obj Novos dados do usuário.
+     * @return O usuário atualizado.
+     * @throws ResourceNotFoundException Se o usuário não for encontrado.
+     */
     @PutMapping(value = "/{id}")
     public ResponseEntity<User> update(@PathVariable Long id, @RequestBody User obj) {
         obj = service.update(id, obj);
